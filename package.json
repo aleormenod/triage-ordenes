@@ -1,0 +1,10 @@
+{
+  "name": "triage-ordenes",
+  "version": "1.0.0",
+  "description": "Generador de órdenes preoperatorias con branding personalizado",
+  "scripts": {
+    "dev": "http-server -p 3000 -c-1",
+    "build": "echo 'Static app - no build needed'",
+    "start": "node -m http.server 3000"
+  }
+}

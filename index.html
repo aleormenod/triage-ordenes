@@ -682,16 +682,23 @@
         return;
       }
 
-      const elemento = document.getElementById(`doc-${tipo}`);
+      const elemento = document.getElementById(`doc-${tipo}`).innerHTML;
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = elemento;
+      document.body.appendChild(wrapper);
+
       const opt = {
         margin: 10,
         filename: `${tipo}_${datosActuales.pacienteNombre.replace(/\s+/g, '_')}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
+        html2canvas: { scale: 2, allowTaint: true, useCORS: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
-      html2pdf().set(opt).from(elemento).save();
+      html2pdf().set(opt).from(wrapper).save().finally(() => {
+        document.body.removeChild(wrapper);
+        mostrarMensaje(`✅ PDF ${tipo} descargado`, 'success');
+      });
     }
 
     function imprimirDoc() {
